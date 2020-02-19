@@ -1,6 +1,7 @@
 
 
-//TODO:
+//TODO: 
+
 
 var c;
 var Mouse;
@@ -83,22 +84,8 @@ function animate ()
 function mouseDown (e)
 {
 
-  var explosionElementCount = 40;
-
-  // smoke
-  for (var i = 0; i < explosionElementCount; i++) {
-
-    var myX = Mouse.x + 10 - (Math.random() * 20);
-    var myY = Mouse.y + 10 - (Math.random() * 20);
-    var ex = new Explosion({ x:myX, y:myY });
-    Objects.add(ex);
-
-  }
-
-  // Explosion2
-  var ex2 = new Explosion2({ x:Mouse.x, y:Mouse.y });
-  Objects.add(ex2);
-
+  var ex = new Explosion({ x:Mouse.x, y:Mouse.y });
+  Objects.add(ex);
 
 }
 
