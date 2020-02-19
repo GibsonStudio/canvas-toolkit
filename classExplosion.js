@@ -24,6 +24,8 @@ function Explosion (args) {
     this.fragments.push(new ExplosionFragment({ x:this.x, y:this.y, ang:ang, life:this.life, color:this.fragementColor, canvas:this.canvas }));
   }
 
+  playExplosionSound();
+
 
   this.update = function () {
 

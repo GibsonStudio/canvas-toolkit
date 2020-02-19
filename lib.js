@@ -18,6 +18,8 @@ var environ, player1, player2;
 var distanceRequired = 8;
 var lastPosition = { x:0, y:0 };
 
+var explosionSounds = [];
+
 
 
 
@@ -30,6 +32,11 @@ function init ()
   Canvas = new Canvas({width: WIDTH, height: HEIGHT });
   window.addEventListener("resize", function (event) { resizeMe(); });
   window.addEventListener("mousedown", function (event) { mouseDown(event); });
+
+  explosionSounds.push(new Howl({ src:['audio//fw_explode_1.mp3'] }));
+  explosionSounds.push(new Howl({ src:['audio//fw_explode_2.mp3'] }));
+  explosionSounds.push(new Howl({ src:['audio//fw_explode_3.mp3'] }));
+  explosionSounds.push(new Howl({ src:['audio//fw_explode_4.mp3'] }));
 
   resizeMe();
 
@@ -127,6 +134,14 @@ function CheckKeys ()
   if (jLib.keys.ArrowUp) { player2.thrust = true; }
   if (jLib.keys.ArrowDown) { player2.shoot(); }
 
+}
+
+
+
+function playExplosionSound ()
+{
+  var index = jLib.random(0, explosionSounds.length - 1);
+  explosionSounds[index].play();
 }
 
 
