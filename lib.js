@@ -1,6 +1,6 @@
 
 
-//TODO: 
+//TODO: change global ref to canvas, c to Canvas
 
 
 var c;
@@ -10,6 +10,7 @@ var distanceRequired = 8;
 var lastPosition = { x:0, y:0 };
 var WIDTH = 800;
 var HEIGHT = 600;
+var player1, player2;
 
 function init ()
 {
@@ -22,7 +23,11 @@ function init ()
 
   resizeMe();
 
-  c.newImage({ id:"ship", src:"img/ship-1.png" });
+  player1 = new Player({ id:"player1", imgSrc:"img/ship-1.png", x:100, y:100 });
+  player2 = new Player({ id:"player2", imgSrc:"img/ship-2.png", x:700, y:100, color:'rgba(0, 0, 0, ' });
+
+  c.newImage({ id:player1.id, src:player1.imgSrc });
+  c.newImage({ id:player2.id, src:player2.imgSrc });
 
   //animate();
 
@@ -33,7 +38,7 @@ function init ()
 function imagesLoaded ()
 {
   console.log("images loaded!");
-  animate();
+  //animate();
 }
 
 
