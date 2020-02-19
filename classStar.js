@@ -13,6 +13,7 @@ function Star (args) {
   this.xVel = 3 - (Math.random() * 6);
   this.yVel = 1 + (Math.random() * 2);
   this.pointCount = 4 + Math.round(Math.random() * 4);
+  this.canvas = args.canvas || Canvas;
 
   var col = Math.round(Math.random() * 200);
   this.R = 255 - col;
@@ -38,7 +39,7 @@ function Star (args) {
     var color = "rgba(" + this.R + "," + this.G + "," + this.B + "," + alpha + ")";
     var size = this.size * (1.1 - (this.age / this.life));
     var ang = (this.ang * 180) / Math.PI;
-    c.star(this.x, this.y, { size:size, fillStyle:color, lineWidth:0, rot:ang, pointCount:this.pointCount });
+    this.canvas.star(this.x, this.y, { size:size, fillStyle:color, lineWidth:0, rot:ang, pointCount:this.pointCount });
 
   }
 

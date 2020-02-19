@@ -13,14 +13,15 @@ function Explosion (args) {
   this.smoke = [];
   this.fragments = [];
   this.fragementColor = args.fragmentColor || "rgba(100, 100, 100, ";
+  this.canvas = args.canvas || Canvas;
 
   for (var i = 0; i < this.smokeCount; i++) {
-    this.smoke.push(new ExplosionSmoke({ x:this.x, y:this.y, life:this.life }));
+    this.smoke.push(new ExplosionSmoke({ x:this.x, y:this.y, life:this.life, canvas:this.canvas }));
   }
 
   for (var i = 0; i < this.fragmentCount; i++) {
     var ang = ((Math.PI * 2) / this.fragmentCount) * i;
-    this.fragments.push(new ExplosionFragment({ x:this.x, y:this.y, ang:ang, life:this.life, color:this.fragementColor }));
+    this.fragments.push(new ExplosionFragment({ x:this.x, y:this.y, ang:ang, life:this.life, color:this.fragementColor, canvas:this.canvas }));
   }
 
 
@@ -68,6 +69,7 @@ function ExplosionSmoke (args) {
 
   this.age = 0;
   this.life = args.life || 100;
+  this.canvas = args.canvas || Canvas;
 
   var col = Math.round(Math.random() * 200);
   this.R = 220 + Math.round(Math.random() * 30);
@@ -87,7 +89,7 @@ function ExplosionSmoke (args) {
     var size = this.startSize + (this.endSize - this.startSize) * (this.age / this.life);
     var color = "rgba(" + this.R + "," + this.G + "," + this.B + "," + alpha + ")";
 
-    c.circle(this.x, this.y, size, { fillStyle:color, lineWidth:0 });
+    this.canvas.circle(this.x, this.y, size, { fillStyle:color, lineWidth:0 });
 
   }
 
@@ -110,6 +112,7 @@ function ExplosionFragment (args) {
   this.alpha = 1;
   this.energy = 0.5;
   this.color = args.color || 'rgba(240, 60, 50, ';
+  this.canvas = args.canvas || Canvas;
 
   var ix = Math.sin(this.ang) * 30;
   var iy = Math.cos(this.ang) * 30;
@@ -139,7 +142,7 @@ function ExplosionFragment (args) {
   this.draw = function () {
 
     var color = this.color + this.alpha + ')';
-    c.line(this.x, this.y, this.x + this.point[0], this.y + this.point[1], { strokeStyle: color });
+    this.canvas.line(this.x, this.y, this.x + this.point[0], this.y + this.point[1], { strokeStyle: color });
 
   }
 
