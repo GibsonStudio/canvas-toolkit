@@ -64,8 +64,7 @@ function Canvas (args) {
   }
 
 
-  this.html = function ()
-  {
+  this.html = function () {
     var html = '<canvas id="' + this.id + '" width="' + this.width +'" height="' + this.height + '" style="' + this.css + '"></canvas>';
     return html;
   }
@@ -76,8 +75,7 @@ function Canvas (args) {
   }
 
 
-  this.clear = function (color)
-  {
+  this.clear = function (color) {
     var context = this.context();
   	context.clearRect(0, 0, this.width, this.height);
     if (color) {
@@ -92,8 +90,7 @@ function Canvas (args) {
   this.context = function () { return document.getElementById(this.id).getContext('2d'); }
 
 
-  this.imageData = function (imageData)
-  {
+  this.imageData = function (imageData) {
     if (imageData) {
       this.context().putImageData(imageData, 0, 0);
     } else {
@@ -102,8 +99,7 @@ function Canvas (args) {
   }
 
 
-  this.line = function (sX, sY, eX, eY, args)
-  {
+  this.line = function (sX, sY, eX, eY, args) {
 
   	var args = args || {};
     var strokeStyle = args.strokeStyle || this.strokeStyle;
@@ -125,9 +121,7 @@ function Canvas (args) {
   }
 
 
-
-  this.polyline = function (points, args)
-  {
+  this.polyline = function (points, args) {
 
     var args = args || {};
     var strokeStyle = args.strokeStyle || this.strokeStyle;
@@ -161,9 +155,7 @@ function Canvas (args) {
   }
 
 
-
-  this.box = function (cX, cY, width, height, args)
-  {
+  this.box = function (cX, cY, width, height, args) {
 
   	var args = args || {};
     var lineWidth = (args.lineWidth == 0) ? 0 : args.lineWidth || this.lineWidth;
@@ -187,8 +179,7 @@ function Canvas (args) {
   }
 
 
-  this.rect = function (x1, y1, x2, y2, args)
-  {
+  this.rect = function (x1, y1, x2, y2, args) {
 
   	var
     args = args || {};
@@ -215,8 +206,7 @@ function Canvas (args) {
   }
 
 
-  this.circle = function (oX, oY, radius, args)
-  {
+  this.circle = function (oX, oY, radius, args) {
 
   	var args = args || {};
     var lineWidth = (args.lineWidth == 0) ? 0 : args.lineWidth || this.lineWidth;
@@ -240,8 +230,7 @@ function Canvas (args) {
   }
 
 
-  this.ellipse = function (oX, oY, width, height, args)
-  {
+  this.ellipse = function (oX, oY, width, height, args) {
 
     var args = args || {};
     var lineWidth = (args.lineWidth == 0) ? 0 : args.lineWidth || this.lineWidth;
@@ -264,7 +253,6 @@ function Canvas (args) {
     }
 
   }
-
 
 
   this.star = function (x, y, args) {
@@ -305,8 +293,7 @@ function Canvas (args) {
   }
 
 
-  this.arc = function (oX, oY, radius, startAngle, endAngle, args)
-  {
+  this.arc = function (oX, oY, radius, startAngle, endAngle, args) {
 
   	args = args || {};
     lineWidth = (args.lineWidth == 0) ? 0 : args.lineWidth || this.lineWidth;
@@ -346,10 +333,7 @@ function Canvas (args) {
   }
 
 
-
-
-  this.wedge = function (oX, oY, radius, startAngle, endAngle, args)
-  {
+  this.wedge = function (oX, oY, radius, startAngle, endAngle, args) {
 
     args = args || {};
     lineWidth = (args.lineWidth == 0) ? 0 : args.lineWidth || this.lineWidth;
@@ -405,9 +389,7 @@ function Canvas (args) {
   }
 
 
-
-  this.text = function (oX, oY, text, args)
-  {
+  this.text = function (oX, oY, text, args) {
 
   	args = args || {};
   	lineWidth = args.lineWidth || 0;
@@ -443,11 +425,7 @@ function Canvas (args) {
   }
 
 
-
-
-
-  this.pixel = function (x, y, args)
-  {
+  this.pixel = function (x, y, args)  {
 
     var args = args || {};
     fillStyle = args.fillStyle || this.default;
@@ -466,10 +444,7 @@ function Canvas (args) {
   }
 
 
-
-
-  this.randomColor = function (alpha)
-  {
+  this.randomColor = function (alpha) {
 
     var alpha = alpha || 1;
     var r = Math.floor(Math.random() * 255);
@@ -491,8 +466,7 @@ function Canvas (args) {
 
   /******** image function ******** */
 
-  this.newImage = function (args)
-  {
+  this.newImage = function (args) {
     var args = args || {};
     args.id = args.id || 'img';
     args.src = args.src || '';
@@ -502,8 +476,7 @@ function Canvas (args) {
   }
 
 
-  this.allImagesLoaded = function ()
-  {
+  this.allImagesLoaded = function () {
     for (var i = 0; i < this.images.length; i++) {
       if (!this.images[i].loaded) { return false; }
     }
@@ -511,8 +484,7 @@ function Canvas (args) {
   }
 
 
-  this.loadImage = function ()
-  {
+  this.loadImage = function () {
 
     // this function is for reference only, it does not do anyting !!!
     var img = new Image();
@@ -525,8 +497,7 @@ function Canvas (args) {
 
 
 
-  this.image = function (imgID, x, y, args)
-  {
+  this.image = function (imgID, x, y, args) {
 
     var args = args || {};
     var rotation = this.toRadians(args.rotation) || false;
@@ -563,31 +534,6 @@ function Canvas (args) {
 
 
 
-  /*
-  this.image = function (img, x, y, args)
-  {
-
-    var args = args || {};
-    var rotation = this.toRadians(args.rotation) || false;
-    var context = this.context();
-
-    if (args.rotation) {
-      context.save();
-      context.translate(x+(img.width/2), y+(img.height/2));
-      context.rotate(rotation);
-      context.translate(-x-(img.width/2), -y-(img.height/2));
-    }
-
-    context.drawImage(img, x, y);
-
-    if (args.rotation) { context.restore(); }
-
-  }
-  */
-
-
-
-
 
 
 }
@@ -620,19 +566,4 @@ function CanvasImage (args) {
     }
   }
 
-}
-
-
-
-
-function CanvasImageOLD (args) {
-  var args = args || {};
-  this.id = args.id || 'img';
-  this.src = args.src || '';
-  this.canvas = args.canvas || false;
-  this.loaded = false;
-  window[this.id] = new Image();
-  var myThis = this;
-  window[this.id].src = this.src;
-  window[this.id].onload = function () { myThis.loaded = true; if (myThis.canvas.allImagesLoaded()) { var s = myThis.canvas.imagesLoadedCallback; if (s) { eval(s); } } }
 }
