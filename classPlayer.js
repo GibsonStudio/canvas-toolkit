@@ -7,20 +7,32 @@ function Player (args) {
 
   this.id = args.id || "player1";
   this.pos = [args.x || 0, args.y || 0];
+
+  this.initPos = [this.pos[0], this.pos[1]];
+
   this.vel = [0, 0];
   this.velMax = 10;
   this.ang = args.ang || 0;
   this.imgSrc = args.imgSrc || "ship-1.png";
   this.thrust = false;
 
+
   this.color = args.color || 'rgba(19, 181, 234, ';
+
+  this.score = 0;
+  this.canvas = args.canvas || Canvas;
+
 
   this.bulletFrequency = 40;
   this.framesSinceLastBullet = this.bulletFrequency;
 
 
 
+
   this.Update = function () {
+
+  this.update = function () {
+
 
     this.framesSinceLastBullet++;
 
@@ -28,7 +40,11 @@ function Player (args) {
     var thrust = [0,0];
 
     if (this.thrust) {
+
       thrust = this.GetThrust();
+
+      thrust = this.getThrust();
+
     }
 
     var factor = 400;
@@ -44,7 +60,18 @@ function Player (args) {
     //bounce?
     if (this.pos[1] > environ.floor) {
 
+
       if (Math.abs(this.vel[1]) < 0.3) {
+
+      var angTolerance = 30;
+
+      if (this.ang > angTolerance || this.ang < -angTolerance || Math.abs(this.vel[0]) > 1.5 || Math.abs(this.vel[1]) > 1.5) {
+
+        this.die();
+        this.killedSelf();
+
+      } else if (Math.abs(this.vel[1]) < 0.3) {
+
         this.vel[0] = 0;
         this.vel[1] = 0;
         this.pos[1] = environ.floor;
@@ -65,7 +92,10 @@ function Player (args) {
       this.pos[0] = WIDTH - this.pos[0];
     }
 
+
     this.Draw();
+
+    this.draw();
 
   }
 
@@ -74,11 +104,20 @@ function Player (args) {
 
     c.image(this.id, this.pos[0], this.pos[1], { rotation:this.ang });
 
+  this.draw = function () {
+
+    this.canvas.image(this.id, this.pos[0], this.pos[1], { rotation:this.ang });
+
+
   }
 
 
 
+
   this.Turn = function (acw) {
+
+  this.turn = function (acw) {
+
 
     var acw = acw || false;
     var angInc = acw ? -3 : 3;
@@ -92,15 +131,21 @@ function Player (args) {
     var thrustForce = 30;
 
     var tX = thrustForce * this.ang.jSin();
-    var tY = thrustForce * this.ang.jCos();
+
+  this.getThrust = function () {
+
+    var thrustForce = 30;
+
+    var tX = thrustForce * jLib.sin(this.ang);
+    var tY = thrustForce * jLib.cos(this.ang);
+
 
     return [tX, tY];
 
   }
 
 
-
-  this.Shoot = function () {
+  this.shoot = function () {
 
     if (this.framesSinceLastBullet < this.bulletFrequency) { return false; }
 
@@ -112,6 +157,11 @@ function Player (args) {
     var bY = this.pos[1] - (offset * this.ang.jCos());
 
     var b = new Bullet({ pos:[bX, bY], dir:this.ang });
+    var bX = this.pos[0] + (offset * jLib.sin(this.ang));
+    var bY = this.pos[1] - (offset * jLib.cos(this.ang));
+
+    var b = new Bullet({ pos:[bX, bY], dir:this.ang, canvas:this.canvas, owner:this });
+
 
   }
 
@@ -119,6 +169,40 @@ function Player (args) {
   this.die = function () {
     var e = new Explosion({x:this.pos[0], y:this.pos[1], dx:this.vel[0], dy:-this.vel[1], color:this.color });
     Objects.add(e);
+
+    var e = new Explosion({x:this.pos[0], y:this.pos[1], dx:this.vel[0], dy:-this.vel[1], color:this.color, canvas:this.canvas });
+    Objects.add(e);
+    Objects.delete(this);
+    var myThis = this;
+    setTimeout(function () { myThis.respawn(); }, 2000);
+  }
+
+
+  this.respawn = function () {
+
+    this.pos[0] = this.initPos[0];
+    this.pos[1] = this.initPos[1];
+    this.vel = [0, 0];
+    this.ang = 0;
+    Objects.add(this);
+
+  }
+
+
+  this.scorePoint = function () {
+
+    this.score++;
+    console.log(this.id + " scored, " + this.score + " points");
+
+  }
+
+
+  this.killedSelf = function  () {
+
+    if (this.score > 0) { this.score--; }
+    console.log(this.id + " killed self, " + this.score + " points.");
+
+
   }
 
 
