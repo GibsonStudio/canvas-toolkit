@@ -1,6 +1,7 @@
 
 // jLib
 // Jon Williams
+// v1.1: 21st Feb 2020: Added Number.addCommas()
 // v1.0: 19th Feb 2020
 
 
@@ -16,6 +17,26 @@ Number.prototype.round = function (nearest = 1)
   if (nearest >= 1) { result = Math.round(result); }
   return result;
 }
+
+
+Number.prototype.addCommas = function  () {
+
+  //var s = this.toString().split(".");
+  //var returnString = s[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+  var returnString = this.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,');
+  return returnString;
+
+  if (s.length > 1) {
+     returnString += ".";
+     for (var i = 1; i < s.length; i++) {
+       returnString += s[i];
+     }
+  }
+
+  return returnString;
+
+}
+
 
 
 
